@@ -1,20 +1,27 @@
+import { useSelector } from 'react-redux';
 import React, { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { getContacts, getFilter } from 'redux/selectors';
+import { useDispatch } from 'react-redux';
+import { addContact, deleteContact } from 'redux/actions';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ]);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+
+  const dispatch = useDispatch();
+
+  // const [contacts, setContacts] = useState([
+  //   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  //   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  //   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  //   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+  // ]);
 
   const [firstRenderFlag, setFlag] = useState(true);
 
-  const [filter, setFilter] = useState('');
   useEffect(() => {}, []);
 
   useEffect(() => {
@@ -25,7 +32,7 @@ export const App = () => {
         const parsedContacts = JSON.parse(contactsFromLocalStorage);
 
         if (parsedContacts) {
-          setContacts(parsedContacts);
+          // setContacts(parsedContacts);
         }
       }
       setFlag(false);
@@ -34,13 +41,8 @@ export const App = () => {
     }
   }, [contacts, firstRenderFlag]);
 
-  const handleChange = e => {
-    const { value } = e.target;
-    setFilter(value);
-  };
-
   const handleSubmit = e => {
-    const id = nanoid();
+    // const id = nanoid();
     const name = e.name;
     const number = e.number;
     const contactsLists = [...contacts];
@@ -48,14 +50,16 @@ export const App = () => {
     if (contactsLists.findIndex(contact => name === contact.name) !== -1) {
       alert(`${name} is already in contacts.`);
     } else {
-      contactsLists.push({ id, name, number });
+      dispatch(addContact(name, number));
+      // contactsLists.push({ id, name, number });
     }
 
-    setContacts(contactsLists);
+    // setContacts(contactsLists);
   };
 
   const handleDelete = e => {
-    setContacts(contacts.filter(contact => contact.id !== e));
+    dispatch(deleteContact(e));
+    // setContacts(contacts.filter(contact => contact.id !== e));
   };
 
   const getFilteredContacts = () => {
@@ -80,7 +84,7 @@ export const App = () => {
       <h1>Phonebook</h1>
       <ContactForm handleSubmit={handleSubmit} />
       <h2> Contacts</h2>
-      <Filter filter={filter} handleChange={handleChange} />
+      <Filter />
       <ContactList
         contacts={getFilteredContacts()}
         handleDelete={handleDelete}
