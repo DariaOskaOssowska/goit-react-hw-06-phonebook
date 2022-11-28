@@ -12,7 +12,7 @@ const initialState = {
   },
 };
 
-const contactsReducer = (state = initialState.contacts, action) => {
+export const contactsReducer = (state = initialState.contacts, action) => {
   switch (action.type) {
     case 'contacts/addContact':
       return {
@@ -35,7 +35,3 @@ const contactsReducer = (state = initialState.contacts, action) => {
       return state;
   }
 };
-
-export const rootReducer = combineReducers({
-  contacts: contactsReducer,
-});
