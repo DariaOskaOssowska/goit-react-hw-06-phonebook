@@ -5,7 +5,7 @@ import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { getContacts, getFilter } from 'redux/selectors';
 import { useDispatch } from 'react-redux';
-import { addContact, deleteContact } from 'redux/actions';
+import { addContact, delContact } from 'redux/actions';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
@@ -58,7 +58,7 @@ export const App = () => {
   };
 
   const handleDelete = e => {
-    dispatch(deleteContact(e));
+    dispatch(delContact(e));
     // setContacts(contacts.filter(contact => contact.id !== e));
   };
 

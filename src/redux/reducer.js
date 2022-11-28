@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { addContact, delContact, setFilter } from './actions';
 
 const initialState = {
   contacts: {
@@ -14,19 +14,19 @@ const initialState = {
 
 export const contactsReducer = (state = initialState.contacts, action) => {
   switch (action.type) {
-    case 'contacts/addContact':
+    case addContact.type:
       return {
         items: [...state.items, action.payload],
         filter: state.filter,
       };
-    case 'contacts/deleteContact':
+    case delContact.type:
       return {
         items: [
           ...state.items.filter(contacts => contacts.id !== action.payload),
         ],
         filter: state.filter,
       };
-    case 'filter/setFilter':
+    case setFilter.type:
       return {
         items: state.items,
         filter: action.payload,
