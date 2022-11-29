@@ -1,4 +1,5 @@
 import { addContact, delContact, setFilter } from './actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 const initialState = {
   contacts: {
@@ -12,26 +13,17 @@ const initialState = {
   },
 };
 
-export const contactsReducer = (state = initialState.contacts, action) => {
-  switch (action.type) {
-    case addContact.type:
-      return {
-        items: [...state.items, action.payload],
-        filter: state.filter,
-      };
-    case delContact.type:
-      return {
-        items: [
-          ...state.items.filter(contacts => contacts.id !== action.payload),
-        ],
-        filter: state.filter,
-      };
-    case setFilter.type:
-      return {
-        items: state.items,
-        filter: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+export const contactsReducer = createReducer(initialState.contacts, {
+  [addContact]: (state, action) => {
+    state.items.push(action.payload);
+  },
+  [delContact]: (state, action) => {
+    const index = state.items.findIndex(
+      contacts => contacts.id === action.payload
+    );
+    state.items.splice(index, 1);
+  },
+  [setFilter]: (state, action) => {
+    state.filter = action.payload;
+  },
+});

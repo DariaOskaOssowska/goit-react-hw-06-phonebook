@@ -13,13 +13,6 @@ export const App = () => {
 
   const dispatch = useDispatch();
 
-  // const [contacts, setContacts] = useState([
-  //   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  //   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  //   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  //   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  // ]);
-
   const [firstRenderFlag, setFlag] = useState(true);
 
   useEffect(() => {}, []);
@@ -32,7 +25,6 @@ export const App = () => {
         const parsedContacts = JSON.parse(contactsFromLocalStorage);
 
         if (parsedContacts) {
-          // setContacts(parsedContacts);
         }
       }
       setFlag(false);
@@ -42,7 +34,6 @@ export const App = () => {
   }, [contacts, firstRenderFlag]);
 
   const handleSubmit = e => {
-    // const id = nanoid();
     const name = e.name;
     const number = e.number;
     const contactsLists = [...contacts];
@@ -51,15 +42,11 @@ export const App = () => {
       alert(`${name} is already in contacts.`);
     } else {
       dispatch(addContact(name, number));
-      // contactsLists.push({ id, name, number });
     }
-
-    // setContacts(contactsLists);
   };
 
   const handleDelete = e => {
     dispatch(delContact(e));
-    // setContacts(contacts.filter(contact => contact.id !== e));
   };
 
   const getFilteredContacts = () => {
